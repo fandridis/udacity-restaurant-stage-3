@@ -19,6 +19,7 @@
     "gulp-htmlclean": "^2.7.16",
     "gulp-imagemin": "^4.1.0",
     "gulp-inject": "^4.3.0",
+    "gulp-inline-source": "^3.2.0",
     "gulp-jsmin": "^0.1.5",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^3.0.0",
