@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 const rename = require("gulp-rename")
+const inlinesource = require('gulp-inline-source');
 //Minifications
 var jsmin = require('gulp-jsmin');
 var imagemin = require('gulp-imagemin');
@@ -41,6 +42,7 @@ gulp.task('html', function () {
   return gulp.src(paths.html, {cwd: bases.src})
     .pipe(htmlclean())
     .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(inlinesource())
     .pipe(gulp.dest(bases.dist))
     .pipe(reload({stream: true}));
 });
@@ -48,6 +50,7 @@ gulp.task('html', function () {
 /**
  * MINIFY CSS
  */
+/*
 gulp.task('css', function () {
   return gulp.src(paths.css, {cwd: bases.src})
     .pipe(autoprefixer({
@@ -58,7 +61,7 @@ gulp.task('css', function () {
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(bases.dist + 'css/'))
     .pipe(reload({stream: true}));
-});
+});*/
 
 /**
  * MINIFY IMAGES
@@ -117,7 +120,7 @@ gulp.task('manifest', (() => {
 /**
  * RUN ALL GULP COMMANDS WITH: gulp build
  */
-gulp.task('build', ['html', 'css', 'js', 'sw','img','icons', 'app-icons','manifest']);
+gulp.task('build', ['html', 'js', 'sw','img','icons', 'app-icons','manifest']);
 
 gulp.task('serve',['build'], (() => {
   browserSync.init({
