@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 const rename = require("gulp-rename")
 const inlinesource = require('gulp-inline-source');
+var browserify = require('gulp-browserify');
+var concat = require('gulp-concat');
 //Minifications
 var jsmin = require('gulp-jsmin');
 var imagemin = require('gulp-imagemin');
@@ -80,9 +82,19 @@ gulp.task('img', function() {
  * MINIFY JAVASCRIPT FILES
  */
 gulp.task('js', function () {
-  return gulp.src(paths.js, {cwd: bases.src})
+  return gulp.src(['js/idb.js', 'js/sw_loader.js'], {cwd: bases.src})
     .pipe(jsmin())
     .pipe(rename({suffix: '.min'}))
+  //  .pipe(concat('all.js'))
+    .pipe(gulp.dest(bases.dist + 'js/'))
+    .pipe(reload({stream: true}));
+});
+
+gulp.task('js-bundle', function () {
+  return gulp.src(['js/dbhelper.js', 'js/lazy-load.js', 'js/main.js', 'js/restaurant_info.js'], {cwd: bases.src})
+    .pipe(jsmin())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(concat('all.min.js'))
     .pipe(gulp.dest(bases.dist + 'js/'))
     .pipe(reload({stream: true}));
 });
@@ -120,7 +132,7 @@ gulp.task('manifest', (() => {
 /**
  * RUN ALL GULP COMMANDS WITH: gulp build
  */
-gulp.task('build', ['html', 'js', 'sw','img','icons', 'app-icons','manifest']);
+gulp.task('build', ['html', 'js', 'js-bundle', 'sw','img','icons', 'app-icons','manifest']);
 
 gulp.task('serve',['build'], (() => {
   browserSync.init({
